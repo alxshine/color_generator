@@ -46,9 +46,9 @@ def parse_xresources(path: Path) -> Dict:
             colors[index] = value
 
     # add color list to result dictionary
-    colorscheme['color'] = []
+    colorscheme['colors'] = []
     for index in sorted(colors.keys()):
-        colorscheme['color'].append(colors[index])
+        colorscheme['colors'].append(colors[index])
 
     return colorscheme
 
@@ -65,16 +65,15 @@ def generate(colorscheme_path: str):
 
     TEMPLATE_PATH = "templates/kitty.conf"
 
-    foreground = colorscheme["foreground"]
-    background = colorscheme["background"]
-    colors = colorscheme["color"]
-    colors = dict(enumerate(colors))
+    colors = colorscheme["colors"]
+    colors_indexed = dict(enumerate(colors))
+    colorscheme['colors_indexed'] = colors_indexed
 
     env = Environment(
         loader=PackageLoader("color_generator"), autoescape=select_autoescape()
     )
     template = env.get_template("kitty.conf")
-    print(template.render(foreground=foreground, background=background, colors=colors))
+    print(template.render(colorscheme))
 
 
 if __name__ == "__main__":
