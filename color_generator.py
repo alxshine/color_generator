@@ -3,10 +3,13 @@ import click
 from jinja2 import Environment, PackageLoader, select_autoescape
 from typing import Dict
 from pathlib import Path
+import configparser
+import os
 
-# @click.group()
-# def main():
-#     pass
+
+@click.group()
+def main():
+    pass
 
 
 def parse_json(path: Path) -> Dict:
@@ -36,27 +39,24 @@ def parse_xresources(path: Path) -> Dict:
 
         line = remove_prefixes(line)
         if any([match in line for match in matches]):
-            name, value = (v.strip() for v in line.split(':'))
-            if 'color' not in name:
+            name, value = (v.strip() for v in line.split(":"))
+            if "color" not in name:
                 colorscheme[name] = value
                 continue
 
-            #color{num}
-            index = int(name.removeprefix('color'))
+            # color{num}
+            index = int(name.removeprefix("color"))
             colors[index] = value
 
     # add color list to result dictionary
-    colorscheme['colors'] = []
+    colorscheme["colors"] = []
     for index in sorted(colors.keys()):
-        colorscheme['colors'].append(colors[index])
+        colorscheme["colors"].append(colors[index])
 
     return colorscheme
 
 
-@click.command()
-@click.argument("colorscheme_path", type=click.Path(exists=True))
-@click.argument("template", type=str)
-def generate(colorscheme_path: str, template: str):
+def generate_colorscheme(colorscheme_path: str, template: str):
     colorscheme_path = Path(colorscheme_path)
     extension = colorscheme_path.suffix.lower()
     if extension == ".xresources":
@@ -66,14 +66,38 @@ def generate(colorscheme_path: str, template: str):
 
     colors = colorscheme["colors"]
     colors_indexed = dict(enumerate(colors))
-    colorscheme['colors_indexed'] = colors_indexed
+    colorscheme["colors_indexed"] = colors_indexed
 
     env = Environment(
         loader=PackageLoader("color_generator"), autoescape=select_autoescape()
     )
     template = env.get_template(template)
-    print(template.render(colorscheme))
+
+    return template.render(colorscheme)
+
+
+@main.command()
+@click.argument("colorscheme_path", type=click.Path(exists=True))
+@click.argument("template", type=str)
+def generate(colorscheme_path: str, template: str):
+    print(generate_colorscheme(colorscheme_path, template))
+
+
+@main.command()
+@click.argument("colorscheme_path", type=str)
+def inject(colorscheme_path: str):
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
+    for section in config.sections():
+        template = config[section]["template"]
+        output_string = generate_colorscheme(colorscheme_path, template)
+
+        target = os.path.expanduser(config[section]["target"])
+        with open(target, 'w') as output_file:
+          output_file.write(output_string)
+
 
 
 if __name__ == "__main__":
-    generate()
+    main()
