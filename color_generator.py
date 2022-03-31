@@ -55,15 +55,14 @@ def parse_xresources(path: Path) -> Dict:
 
 @click.command()
 @click.argument("colorscheme_path", type=click.Path(exists=True))
-def generate(colorscheme_path: str):
+@click.argument("template", type=str)
+def generate(colorscheme_path: str, template: str):
     colorscheme_path = Path(colorscheme_path)
     extension = colorscheme_path.suffix.lower()
     if extension == ".xresources":
         colorscheme = parse_xresources(colorscheme_path)
     elif extension == ".json":
         colorscheme = parse_json(colorscheme_path)
-
-    TEMPLATE_PATH = "templates/kitty.conf"
 
     colors = colorscheme["colors"]
     colors_indexed = dict(enumerate(colors))
@@ -72,7 +71,7 @@ def generate(colorscheme_path: str):
     env = Environment(
         loader=PackageLoader("color_generator"), autoescape=select_autoescape()
     )
-    template = env.get_template("kitty.conf")
+    template = env.get_template(template)
     print(template.render(colorscheme))
 
 
