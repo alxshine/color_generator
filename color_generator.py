@@ -38,15 +38,22 @@ class Color:
         self.a = a
 
     def __repr__(self) -> str:
-        return self.build_html_string()
+        return self.to_html_string()
 
-    def build_html_string(
+    def to_html_string(
         self, include_pound: bool = True, include_alpha: bool = False
     ) -> str:
         ret = "#" if include_pound else ""
         ret += f"{self.r:x}{self.g:x}{self.b:x}"
         if include_alpha:
             ret += f"{self.a:x}"
+        return ret
+
+    def to_tuple(self, include_alpha: bool = False) -> str:
+        ret = f"{self.r},{self.g},{self.b}"
+        if include_alpha:
+            ret += f",{self.a}"
+
         return ret
 
 
