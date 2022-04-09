@@ -108,6 +108,8 @@ def generate_colorscheme(colorscheme_path: str, template: str):
         raw_colorscheme = parse_xresources(colorscheme_path)
     elif extension == ".json":
         raw_colorscheme = parse_json(colorscheme_path)
+    else:
+        raise ValueError(f"path {colorscheme_path} has unknown extension")
 
     colors = raw_colorscheme["colors"]
     colors_indexed = dict(enumerate(colors))
