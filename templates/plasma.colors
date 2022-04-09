@@ -101,9 +101,9 @@ shadeSortColumn=true
 contrast=7
 
 [WM]
-activeBackground=48,47,46
-activeBlend=41,47,52
-activeForeground=239,218,187
-inactiveBackground=41,47,52
-inactiveBlend=41,47,52
-inactiveForeground=130,130,130
+activeBackground={{ colors[0].to_tuple() }}
+activeBlend={{ colors[7].to_tuple() }}
+activeForeground={{ foreground.to_tuple() }}
+inactiveBackground={{ background.to_tuple() }}
+inactiveBlend={{ colors[15].to_tuple() }}
+inactiveForeground={{ foreground.to_tuple() }}
