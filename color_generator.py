@@ -44,9 +44,9 @@ class Color:
         self, include_pound: bool = True, include_alpha: bool = False
     ) -> str:
         ret = "#" if include_pound else ""
-        ret += f"{self.r:x}{self.g:x}{self.b:x}"
+        ret += f"{self.r:02x}{self.g:02x}{self.b:02x}"
         if include_alpha:
-            ret += f"{self.a:x}"
+            ret += f"{self.a:02x}"
         return ret
 
     def to_tuple(self, include_alpha: bool = False) -> str:
