@@ -19,18 +19,18 @@ IntensityAmount=0
 IntensityEffect=0
 
 [Colors:Button]
-BackgroundAlternate=232,221,221
-BackgroundNormal=60,57,56
-DecorationFocus=229,103,86
-DecorationHover=229,103,86
-ForegroundActive=155,89,182
-ForegroundInactive=130,148,163
-ForegroundLink=124,172,199
-ForegroundNegative=231,76,60
-ForegroundNeutral=230,126,34
-ForegroundNormal=255,233,200
-ForegroundPositive=52,152,219
-ForegroundVisited=207,94,101
+BackgroundAlternate={{ colors[1].to_tuple() }}
+BackgroundNormal={{ colors[4].to_tuple() }}
+DecorationFocus={{ foreground.to_tuple() }}
+DecorationHover={{ colors[12].to_tuple() }}
+ForegroundActive={{ colors[5].to_tuple() }}
+ForegroundInactive={{ background.to_tuple() }}
+ForegroundLink={{ colors[6].to_tuple() }}
+ForegroundNegative={{ colors[9].to_tuple() }}
+ForegroundNeutral={{ colors[3].to_tuple() }}
+ForegroundNormal={{ foreground.to_tuple() }}
+ForegroundPositive={{ colors[8].to_tuple() }}
+ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:Complementary]
 BackgroundAlternate=62,71,78
@@ -74,12 +74,12 @@ ForegroundInactive=130,148,163
 ForegroundLink=124,172,199
 ForegroundNegative=231,76,60
 ForegroundNeutral=230,126,34
-ForegroundNormal=227,206,175
+ForegroundNormal={{ foreground.to_tuple() }}
 ForegroundPositive=52,152,219
 ForegroundVisited=207,94,101
 
 [Colors:Window]
-BackgroundAlternate=30,35,32
+BackgroundAlternate={{ colors[0].to_tuple() }}
 BackgroundNormal={{ background.to_tuple() }}
 DecorationFocus=229,103,86
 DecorationHover=229,103,86
@@ -88,7 +88,7 @@ ForegroundInactive=112,80,80
 ForegroundLink=124,172,199
 ForegroundNegative=231,76,60
 ForegroundNeutral=230,126,34
-ForegroundNormal=227,206,175
+ForegroundNormal={{ foreground.to_tuple() }}
 ForegroundPositive=52,152,219
 ForegroundVisited=207,94,101
 
