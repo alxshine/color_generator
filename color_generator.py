@@ -7,9 +7,47 @@ import configparser
 import os
 
 
+def remove_prefix(s: str, prefix: str):
+    return s[len(prefix) :] if s.startswith(prefix) else s
+
+
 @click.group()
 def main():
     pass
+
+
+class Color:
+    @classmethod
+    def from_html_string(self, html_code: str):
+        html_code = remove_prefix(html_code, "#")
+
+        r = int(html_code[0:2], 16)
+        g = int(html_code[2:4], 16)
+        b = int(html_code[4:6], 16)
+        a = int(html_code[6:8], 16) if len(html_code) > 6 else 255
+        return Color(r, g, b, a)
+
+    def __init__(self, r: int, g: int, b: int, a: int = 255):
+        assert r >= 0 and r <= 255
+        assert g >= 0 and g <= 255
+        assert b >= 0 and b <= 255
+        assert a >= 0 and a <= 255
+        self.r = r
+        self.g = g
+        self.b = b
+        self.a = a
+
+    def __repr__(self) -> str:
+        return self.build_html_string()
+
+    def build_html_string(
+        self, include_pound: bool = True, include_alpha: bool = False
+    ) -> str:
+        ret = "#" if include_pound else ""
+        ret += f"{self.r:x}{self.g:x}{self.b:x}"
+        if include_alpha:
+            ret += f"{self.a:x}"
+        return ret
 
 
 def parse_json(path: Path) -> Dict:
@@ -25,7 +63,7 @@ def parse_xresources(path: Path) -> Dict:
 
     def remove_prefixes(line: str) -> str:
         for prefix in prefixes:
-            line = line.removeprefix(prefix)
+            line = remove_prefix(line, prefix)
         return line
 
     colorscheme = {}
@@ -45,7 +83,7 @@ def parse_xresources(path: Path) -> Dict:
                 continue
 
             # color{num}
-            index = int(name.removeprefix("color"))
+            index = int(remove_prefix(name, "color"))
             colors[index] = value
 
     # add color list to result dictionary
@@ -60,13 +98,26 @@ def generate_colorscheme(colorscheme_path: str, template: str):
     colorscheme_path = Path(colorscheme_path)
     extension = colorscheme_path.suffix.lower()
     if extension == ".xresources":
-        colorscheme = parse_xresources(colorscheme_path)
+        raw_colorscheme = parse_xresources(colorscheme_path)
     elif extension == ".json":
-        colorscheme = parse_json(colorscheme_path)
+        raw_colorscheme = parse_json(colorscheme_path)
 
-    colors = colorscheme["colors"]
+    colors = raw_colorscheme["colors"]
     colors_indexed = dict(enumerate(colors))
-    colorscheme["colors_indexed"] = colors_indexed
+    raw_colorscheme["colors_indexed"] = colors_indexed
+
+    colorscheme = {}
+    for key, raw_value in raw_colorscheme.items():
+        if isinstance(raw_value, str):
+            value = Color.from_html_string(raw_value)
+        elif isinstance(raw_value, list):
+            value = [Color.from_html_string(item) for item in raw_value]
+        elif isinstance(raw_value, dict):
+            value = {k: Color.from_html_string(v) for k, v in raw_value.items()}
+        else:
+            raise ValueError(f"{raw_value} is of unknown type {type(raw_value)}")
+
+        colorscheme[key] = value
 
     env = Environment(
         loader=PackageLoader("color_generator"), autoescape=select_autoescape()
@@ -94,9 +145,8 @@ def inject(colorscheme_path: str):
         output_string = generate_colorscheme(colorscheme_path, template)
 
         target = os.path.expanduser(config[section]["target"])
-        with open(target, 'w') as output_file:
-          output_file.write(output_string)
-
+        with open(target, "w") as output_file:
+            output_file.write(output_string)
 
 
 if __name__ == "__main__":
