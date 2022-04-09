@@ -33,7 +33,7 @@ ForegroundPositive={{ colors[8].to_tuple() }}
 ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:Complementary]
-BackgroundAlternate={{ colors[6].to_tuple()}}
+BackgroundAlternate={{ colors[0].to_tuple()}}
 ForegroundInactive={{ colors[15].to_tuple()}}
 
 [Colors:Selection]
@@ -66,7 +66,7 @@ ForegroundPositive={{ colors[8].to_tuple() }}
 ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:View]
-BackgroundAlternate={{ colors[6].to_tuple() }}
+BackgroundAlternate={{ colors[0].to_tuple() }}
 BackgroundNormal={{ background.to_tuple() }}
 DecorationFocus={{ foreground.to_tuple() }}
 DecorationHover={{ colors[12].to_tuple() }}
