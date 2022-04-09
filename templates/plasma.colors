@@ -33,68 +33,68 @@ ForegroundPositive={{ colors[8].to_tuple() }}
 ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:Complementary]
-BackgroundAlternate=62,71,78
-ForegroundInactive=67,76,84
+BackgroundAlternate={{ colors[6].to_tuple()}}
+ForegroundInactive={{ colors[15].to_tuple()}}
 
 [Colors:Selection]
-BackgroundAlternate=54,215,183
-BackgroundNormal=75,55,53
-DecorationFocus=229,103,86
-DecorationHover=229,103,86
-ForegroundActive=96,55,113
-ForegroundInactive=222,222,222
-ForegroundLink=124,172,199
-ForegroundNegative=231,76,60
-ForegroundNeutral=168,88,23
-ForegroundNormal=183,167,146
-ForegroundPositive=37,116,165
-ForegroundVisited=207,94,101
+BackgroundAlternate={{ colors[12].to_tuple() }}
+BackgroundNormal={{ colors[1].to_tuple() }}
+DecorationFocus={{ foreground.to_tuple() }}
+DecorationHover={{ colors[12].to_tuple() }}
+ForegroundActive={{ colors[5].to_tuple() }}
+ForegroundInactive={{ background.to_tuple() }}
+ForegroundLink={{ colors[6].to_tuple() }}
+ForegroundNegative={{ colors[9].to_tuple() }}
+ForegroundNeutral={{ colors[3].to_tuple() }}
+ForegroundNormal={{ foreground.to_tuple() }}
+ForegroundPositive={{ colors[8].to_tuple() }}
+ForegroundVisited={{ colors[12].to_tuple() }}
+
 
 [Colors:Tooltip]
-BackgroundAlternate=62,71,78
-BackgroundNormal=48,47,46
-DecorationFocus=229,103,86
-DecorationHover=229,103,86
-ForegroundActive=155,89,182
-ForegroundInactive=130,148,163
-ForegroundLink=124,172,199
-ForegroundNegative=231,76,60
-ForegroundNeutral=230,126,34
-ForegroundNormal=242,222,190
-ForegroundPositive=52,152,219
-ForegroundVisited=207,94,101
+BackgroundAlternate={{ colors[8].to_tuple() }}
+BackgroundNormal={{ colors[0].to_tuple() }}
+DecorationFocus={{ foreground.to_tuple() }}
+DecorationHover={{ colors[12].to_tuple() }}
+ForegroundActive={{ colors[5].to_tuple() }}
+ForegroundInactive={{ background.to_tuple() }}
+ForegroundLink={{ colors[6].to_tuple() }}
+ForegroundNegative={{ colors[9].to_tuple() }}
+ForegroundNeutral={{ colors[3].to_tuple() }}
+ForegroundNormal={{ foreground.to_tuple() }}
+ForegroundPositive={{ colors[8].to_tuple() }}
+ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:View]
-BackgroundAlternate=62,71,78
+BackgroundAlternate={{ colors[6].to_tuple() }}
 BackgroundNormal={{ background.to_tuple() }}
-DecorationFocus=229,103,86
-DecorationHover=229,103,86
-ForegroundActive=155,89,182
-ForegroundInactive=130,148,163
-ForegroundLink=124,172,199
-ForegroundNegative=231,76,60
-ForegroundNeutral=230,126,34
+DecorationFocus={{ foreground.to_tuple() }}
+DecorationHover={{ colors[12].to_tuple() }}
+ForegroundActive={{ colors[5].to_tuple() }}
+ForegroundInactive={{ colors[15].to_tuple() }}
+ForegroundLink={{ colors[6].to_tuple() }}
+ForegroundNegative={{ colors[9].to_tuple() }}
+ForegroundNeutral={{ colors[3].to_tuple() }}
 ForegroundNormal={{ foreground.to_tuple() }}
-ForegroundPositive=52,152,219
-ForegroundVisited=207,94,101
+ForegroundPositive={{ colors[8].to_tuple() }}
+ForegroundVisited={{ colors[12].to_tuple() }}
 
 [Colors:Window]
 BackgroundAlternate={{ colors[0].to_tuple() }}
 BackgroundNormal={{ background.to_tuple() }}
-DecorationFocus=229,103,86
-DecorationHover=229,103,86
-ForegroundActive=225,151,202
-ForegroundInactive=112,80,80
-ForegroundLink=124,172,199
-ForegroundNegative=231,76,60
-ForegroundNeutral=230,126,34
+DecorationFocus={{ foreground.to_tuple() }}
+DecorationHover={{ colors[12].to_tuple() }}
+ForegroundActive={{ colors[5].to_tuple() }}
+ForegroundInactive={{ colors[15].to_tuple() }}
+ForegroundLink={{ colors[6].to_tuple() }}
+ForegroundNegative={{ colors[9].to_tuple() }}
+ForegroundNeutral={{ colors[3].to_tuple() }}
 ForegroundNormal={{ foreground.to_tuple() }}
-ForegroundPositive=52,152,219
-ForegroundVisited=207,94,101
+ForegroundPositive={{ colors[8].to_tuple() }}
+ForegroundVisited={{ colors[12].to_tuple() }}
 
 [General]
-ColorScheme=Breath2Dark
-Name=Zen
+Name=Generated
 shadeSortColumn=true
 
 [KDE]
