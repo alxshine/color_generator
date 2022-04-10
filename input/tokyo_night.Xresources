@@ -1,0 +1,38 @@
+# based on folke/tokyonight.nvim
+
+! special
+*.foreground:   #c0caf5
+*.background:   #1a1b26
+*.cursorColor:  #c0caf5
+
+! black
+*.color0:       #1f2335
+*.color8:       #292e42
+
+! red
+*.color1:       #f7768e
+*.color9:       #db4b4b
+
+! green
+*.color2:       #9ece6a
+*.color10:      #73daca
+
+! yellow
+*.color3:       #e0af68
+*.color11:      #f0c674
+
+! blue
+*.color4:       #7aa2f7
+*.color12:      #2ac3de
+
+! magenta
+*.color5:       #9d7cd8
+*.color13:      #ff007c
+
+! cyan
+*.color6:       #7dcfff
+*.color14:      #7dcfff
+
+! white
+*.color7:       #dbfaff
+*.color15:      #ffffff
