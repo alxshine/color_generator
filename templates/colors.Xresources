@@ -1,0 +1,7 @@
+*.foreground:   {{ foreground }}
+*.background:   {{ background }}
+*.cursorColor:  {{ foreground }}
+
+{% for index,value in colors_indexed.items() %}
+  *.color{{ index }}: {{ value }}
+{% endfor %}
