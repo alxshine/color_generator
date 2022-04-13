@@ -5,6 +5,7 @@ from typing import Dict
 from pathlib import Path
 import configparser
 import os
+import hsluv
 
 
 def remove_prefix(s: str, prefix: str):
@@ -101,7 +102,18 @@ def parse_xresources(path: Path) -> Dict:
     return colorscheme
 
 
-def generate_colorscheme(colorscheme_path: str, template: str):
+def generate_colorscheme(colorscheme_path: str, template: str, light: bool = False):
+    colorscheme = load_colorscheme(colorscheme_path, light)
+
+    env = Environment(
+        loader=PackageLoader("color_generator"), autoescape=select_autoescape()
+    )
+    template = env.get_template(template)
+
+    return template.render(colorscheme)
+
+
+def load_colorscheme(colorscheme_path: str, light: bool = False):
     colorscheme_path = Path(colorscheme_path)
     extension = colorscheme_path.suffix.lower()
     if extension == ".xresources":
@@ -128,30 +140,56 @@ def generate_colorscheme(colorscheme_path: str, template: str):
 
         colorscheme[key] = value
 
-    env = Environment(
-        loader=PackageLoader("color_generator"), autoescape=select_autoescape()
-    )
-    template = env.get_template(template)
+    if light:
+        return lighten_colorscheme(colorscheme)
 
-    return template.render(colorscheme)
+    return colorscheme
+
+
+def lighten_colorscheme(colorscheme: Dict) -> Dict:
+    light_colorscheme = {
+        "background": colorscheme["foreground"],
+        "foreground": colorscheme["background"],
+        "cursorColor": colorscheme["background"],
+    }
+    light_colorscheme["colors"] = list(map(generate_light_color, colorscheme["colors"]))
+    light_colorscheme["colors_indexed"] = {
+        key: generate_light_color(color) for key, color in colorscheme["colors_indexed"].items()
+    }
+
+    return light_colorscheme
+
+
+def generate_light_color(color: Color) -> Color:
+    hex_string = color.to_html_string()
+    hue, saturation, lightness = hsluv.hex_to_hsluv(hex_string)
+    raw_rgb = hsluv.hsluv_to_rgb((hue, saturation, 100 - lightness))
+
+    def clean_rgb(col: float) -> int:
+        return int(col * 255)
+
+    clean_rgb = tuple(map(clean_rgb, raw_rgb))
+    return Color(*clean_rgb)
 
 
 @main.command()
 @click.argument("colorscheme_path", type=click.Path(exists=True))
 @click.argument("template", type=str)
-def generate(colorscheme_path: str, template: str):
-    print(generate_colorscheme(colorscheme_path, template))
+@click.option("--light/-l", default=False)
+def generate(colorscheme_path: str, template: str, light: bool):
+    print(generate_colorscheme(colorscheme_path, template, light))
 
 
 @main.command()
 @click.argument("colorscheme_path", type=str)
-def inject(colorscheme_path: str):
+@click.option("--light/-l", default=False)
+def inject(colorscheme_path: str, light: bool):
     config = configparser.ConfigParser()
     config.read("config.ini")
 
     for section in config.sections():
         template = config[section]["template"]
-        output_string = generate_colorscheme(colorscheme_path, template)
+        output_string = generate_colorscheme(colorscheme_path, template, light)
 
         target = os.path.expanduser(config[section]["target"])
         with open(target, "w") as output_file:
