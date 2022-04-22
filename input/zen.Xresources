@@ -1,6 +1,6 @@
 ! special
 *.foreground:   #e3ceaf
-*.background:   #141313
+*.background:   #262524
 *.cursorColor:  #e3ceaf
 
 ! black
