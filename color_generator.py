@@ -106,7 +106,7 @@ def generate_colorscheme(colorscheme_path: str, template: str, light: bool = Fal
     colorscheme = load_colorscheme(colorscheme_path, light)
 
     env = Environment(
-        loader=PackageLoader("color_generator"), autoescape=select_autoescape()
+        loader=PackageLoader("color_generator", package_path=""), autoescape=select_autoescape()
     )
     template = env.get_template(template)
 
